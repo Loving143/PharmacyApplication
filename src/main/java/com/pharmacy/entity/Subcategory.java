@@ -18,6 +18,7 @@ public class Subcategory {
 	private Integer id;
 	private String name;
 	private String description;
+	private Integer code;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Category category;
 
@@ -57,7 +58,16 @@ public class Subcategory {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
-	
-	
+
+	public Subcategory(Integer code) {
+		this.code = code;
+	}
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 }
