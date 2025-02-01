@@ -14,4 +14,6 @@ public interface MedicineService {
 
 	MedicineResponse fetchMedicineByMedicineCodeAndBatchNo(String medicineCode, String batchNo);
 
+	List<MedicineResponse> fetchExpiredMedicines();
+
 }

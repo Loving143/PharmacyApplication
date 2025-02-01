@@ -1,9 +1,7 @@
 package com.pharmacy.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,8 @@ import com.pharmacy.entity.Subcategory;
 import com.pharmacy.exception.BadRequestException;
 import com.pharmacy.repository.MedicineRepository;
 import com.pharmacy.repository.SubCategoryRepository;
-import com.pharmacy.response.MedicineResponse;
 import com.pharmacy.response.LowStockMedicineResponsible;
+import com.pharmacy.response.MedicineResponse;
 
 @Service
 public class MedicineServiceImpl implements MedicineService{
@@ -61,6 +59,13 @@ public class MedicineServiceImpl implements MedicineService{
 					orElseThrow(()-> new BadRequestException("Medicine does not exists!"));
 		MedicineResponse response = new MedicineResponse(responsible);
 		return response;
+	}
+	@Override
+	public List<MedicineResponse> fetchExpiredMedicines() {
+		Date date = new Date();
+		return medicineRepository.fetchExpiredMedicine(date)
+				 .stream().map(medicine -> new MedicineResponse(medicine))
+				 .collect(Collectors.toList());
 	}
 
 }

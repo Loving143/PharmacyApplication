@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.pharmacy.entity.Medicine;
+import com.pharmacy.entity.Subcategory;
 import com.pharmacy.response.LowStockMedicineResponsible;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer>{
@@ -51,5 +52,19 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer>{
 			+ "AND med.batchNo =:batchNo"
 			)
 	Optional<LowStockMedicineResponsible> fetchMedicineByMedicineCodeAndBatchNo(String medicineCode, String batchNo);
+
+	@Query(" Select "
+			+ "med.medicineName as medicineName,"
+			+ "med.medicineCode as medicineCode,"
+			+ "med.batchNo as batchNo, "
+			+ "med.description as description ,"
+			+ "med.brandName as brandName, "
+			+ "med.expiryDate as expiryDate,"
+			+ "med.price as price,"
+			+ "med.stockQuantity as stockQuantity "
+			+ "from Medicine med "
+			+ "where med.expiryDate<:date "
+			)
+	Optional<LowStockMedicineResponsible> fetchExpiredMedicine(Date date);
 
 }

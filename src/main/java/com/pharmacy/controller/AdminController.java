@@ -40,4 +40,9 @@ public class AdminController {
 		return ResponseEntity.ok(new ResponseMessage("1",medicineService.fetchMedicineByMedicineCodeAndBatchNo(medicineCode,batchNo)));
 	}
 	
+	@GetMapping("get/expiredMedicines")
+	public ResponseEntity<?>getExpiredMedicines(){
+		return ResponseEntity.ok(new ResponseMessage("1", medicineService.fetchExpiredMedicines()));
+	}
+	
 }
