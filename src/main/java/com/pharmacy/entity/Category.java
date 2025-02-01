@@ -13,7 +13,7 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
     @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1)
     private Long id;
-	@Column(unique = true, nullable = false)
+	@Column(unique = true)
     private String name;
     private String description;
 	private String code;
@@ -30,8 +30,17 @@ public class Category {
 
 	public Category(AddCategoryRequest request) {
 		this.name = request.getName();
+		this.code = request.getCode();
 		this.description = request.getDescription();
 		
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Long getId() {

@@ -1,5 +1,6 @@
 package com.pharmacy.services;
 
+import com.pharmacy.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,22 @@ public class CategoryServiceImpl implements CategoryService {
 	private SubCategoryRepository subCategoryRepository;
 	@Override
 	public void addCategory(AddCategoryRequest request) {
+		validateAddCategory(request);
 		Category category = new Category(request);
 		categoryRepository.save(category);
 		
 	}
+
+	private void validateAddCategory(AddCategoryRequest request) {
+		if(categoryRepository.existsByCode(request.getCode()))
+			throw new BadRequestException("Category code already exists!");
+
+		if (categoryRepository.existsByName(request.getName()))
+			throw new BadRequestException("Category name already exists!");
+
+
+	}
+
 	@Override
 	public void addSubCategory(AddSubCategoryRequest request) throws Exception {
 		Category category = categoryRepository.findById(request.getId())
