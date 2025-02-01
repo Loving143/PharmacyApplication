@@ -3,6 +3,7 @@ package com.pharmacy.entity;
 import java.util.Date;
 
 import com.pharmacy.Request.AddMedicineRequest;
+import com.pharmacy.response.LowStockMedicineResponsible;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

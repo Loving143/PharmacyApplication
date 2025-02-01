@@ -1,6 +1,10 @@
 package com.pharmacy.services;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,8 @@ import com.pharmacy.entity.Subcategory;
 import com.pharmacy.exception.BadRequestException;
 import com.pharmacy.repository.MedicineRepository;
 import com.pharmacy.repository.SubCategoryRepository;
+import com.pharmacy.response.MedicineResponse;
+import com.pharmacy.response.LowStockMedicineResponsible;
 
 @Service
 public class MedicineServiceImpl implements MedicineService{
@@ -41,9 +47,20 @@ public class MedicineServiceImpl implements MedicineService{
 		medicineRepository.save(medicine);
 	}
 	public void validateAddMedicine(AddMedicineRequest request)  {
-		
-		
-		
+	}
+	@Override
+	public List<MedicineResponse> fetchLowStockMedicine(Integer medicineThreshhold) {
+		 return medicineRepository.fetchLowStockMedicine()
+				 .stream().map(medicine -> new MedicineResponse(medicine))
+				 .collect(Collectors.toList());
+
+	}
+	@Override
+	public MedicineResponse fetchMedicineByMedicineCodeAndBatchNo(String medicineCode, String batchNo) {
+		LowStockMedicineResponsible responsible =  medicineRepository.fetchMedicineByMedicineCodeAndBatchNo(medicineCode,batchNo).
+					orElseThrow(()-> new BadRequestException("Medicine does not exists!"));
+		MedicineResponse response = new MedicineResponse(responsible);
+		return response;
 	}
 
 }
