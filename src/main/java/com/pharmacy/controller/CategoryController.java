@@ -1,10 +1,9 @@
 package com.pharmacy.controller;
 
+import com.pharmacy.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.pharmacy.Request.AddCategoryRequest;
 import com.pharmacy.Request.AddSubCategoryRequest;
@@ -27,6 +26,12 @@ public class CategoryController {
 	public String addSubCategoryCategory(@RequestBody AddSubCategoryRequest request) throws Exception {
 		categoryService.addSubCategory(request);
 		return "subcategory added successfully";
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> deleteCategory (@PathVariable Integer id) {
+		categoryService.removeCategory(id);
+		return  ResponseEntity.ok().body("Category Deleted Successfully.");
 	}
 
 }
