@@ -67,4 +67,17 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer>{
 			)
 	Optional<LowStockMedicineResponsible> fetchExpiredMedicine(Date date);
 
+	@Query(" Select "
+			+ "med.medicineName as medicineName,"
+			+ "med.medicineCode as medicineCode,"
+			+ "med.batchNo as batchNo, "
+			+ "med.description as description ,"
+			+ "med.brandName as brandName, "
+			+ "med.expiryDate as expiryDate,"
+			+ "med.price as price,"
+			+ "med.stockQuantity as stockQuantity "
+			+ "from Medicine med "
+			)
+	List<LowStockMedicineResponsible> fetchAllMedicine();
+
 }

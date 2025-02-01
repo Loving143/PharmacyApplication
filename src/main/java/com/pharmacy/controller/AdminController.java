@@ -45,4 +45,11 @@ public class AdminController {
 		return ResponseEntity.ok(new ResponseMessage("1", medicineService.fetchExpiredMedicines()));
 	}
 	
+	@GetMapping("get/allMedicines")
+	public ResponseEntity<?>getAllMedcines(){
+		return ResponseEntity.ok(new ResponseMessage("1", medicineService.fetchAllMedicines()));
+	}
+	
+	
+	
 }

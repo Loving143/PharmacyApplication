@@ -3,7 +3,7 @@ package com.pharmacy.services;
 import java.util.List;
 
 import com.pharmacy.Request.AddMedicineRequest;
-import com.pharmacy.entity.Medicine;
+import com.pharmacy.response.ExpiredMedicineReponse;
 import com.pharmacy.response.MedicineResponse;
 
 public interface MedicineService {
@@ -14,6 +14,8 @@ public interface MedicineService {
 
 	MedicineResponse fetchMedicineByMedicineCodeAndBatchNo(String medicineCode, String batchNo);
 
-	List<MedicineResponse> fetchExpiredMedicines();
+	List<ExpiredMedicineReponse> fetchExpiredMedicines();
+
+	List<MedicineResponse> fetchAllMedicines();
 
 }

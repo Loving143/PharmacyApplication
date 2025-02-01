@@ -5,8 +5,8 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pharmacy.enumm.MedicineStatus;
 
-public class MedicineResponse {
-	
+public class ExpiredMedicineReponse {
+
 	private String medicineName;
 	private String medicineCode;
 	private String batchNo;
@@ -73,7 +73,7 @@ public class MedicineResponse {
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
-	public MedicineResponse(LowStockMedicineResponsible dto) {
+	public ExpiredMedicineReponse(LowStockMedicineResponsible dto) {
 		this.batchNo = dto.getBatchNo();
 		this.brandName = dto.getBrandName();
 		this.medicineCode = dto.getmedicineCode();
@@ -82,6 +82,7 @@ public class MedicineResponse {
 		this.price = dto.getPrice();
 		this.stockQuantity = dto.getStockQuantity();
 		this.expiryDate = dto.getExpiryDate();
+		this.status = MedicineStatus.EXPIRED;
 	}
 	public MedicineStatus getStatus() {
 		return status;
@@ -91,5 +92,4 @@ public class MedicineResponse {
 	}
 	
 	
-
 }

@@ -3,10 +3,12 @@ package com.pharmacy.entity;
 import java.util.Date;
 
 import com.pharmacy.Request.AddMedicineRequest;
-import com.pharmacy.response.LowStockMedicineResponsible;
+import com.pharmacy.enumm.MedicineStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +33,8 @@ public class Medicine {
 	private String manufacturerName;
 	private Date expiryDate;
 	private byte[] medicineImage;
+	@Enumerated(EnumType.STRING)
+	private MedicineStatus status;
 	
 	
 	public Medicine(AddMedicineRequest request) {
@@ -44,6 +48,7 @@ public class Medicine {
 		this.expiryDate = request.getExpiryDate();
 		this.medicineImage = request.getMedicineImage();
 		this.batchNo = request.getBatchNo();
+		this.status = MedicineStatus.ACTIVE;
 		
 	}
 	public Integer getId() {
@@ -120,6 +125,13 @@ public class Medicine {
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
 	}
+	public MedicineStatus getStatus() {
+		return status;
+	}
+	public void setStatus(MedicineStatus status) {
+		this.status = status;
+	}
+	
 	
 	
 

@@ -13,6 +13,7 @@ import com.pharmacy.entity.Subcategory;
 import com.pharmacy.exception.BadRequestException;
 import com.pharmacy.repository.MedicineRepository;
 import com.pharmacy.repository.SubCategoryRepository;
+import com.pharmacy.response.ExpiredMedicineReponse;
 import com.pharmacy.response.LowStockMedicineResponsible;
 import com.pharmacy.response.MedicineResponse;
 
@@ -61,9 +62,17 @@ public class MedicineServiceImpl implements MedicineService{
 		return response;
 	}
 	@Override
-	public List<MedicineResponse> fetchExpiredMedicines() {
+	public List<ExpiredMedicineReponse> fetchExpiredMedicines() {
 		Date date = new Date();
 		return medicineRepository.fetchExpiredMedicine(date)
+				 .stream().map((medicine) -> 
+					 new ExpiredMedicineReponse(medicine)
+				 )
+				 .collect(Collectors.toList());
+	}
+	@Override
+	public List<MedicineResponse> fetchAllMedicines() {
+		return medicineRepository.fetchLowStockMedicine()
 				 .stream().map(medicine -> new MedicineResponse(medicine))
 				 .collect(Collectors.toList());
 	}
