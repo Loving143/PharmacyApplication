@@ -2,6 +2,7 @@ package com.pharmacy.Request;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pharmacy.entity.Subcategory;
 
 import jakarta.persistence.CascadeType;
@@ -12,13 +13,14 @@ public class AddMedicineRequest {
 	
 	private String medicineName;
 	private String medicineCode;
+	private String batchNo;
 	private String description;
 	private String brandName;
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Subcategory subcategory;
 	private double price;
 	private Integer stockQuantity;
 	private String manufacturerName;
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date expiryDate;
 	private byte[] medicineImage;
 	
@@ -81,6 +83,12 @@ public class AddMedicineRequest {
 	}
 	public void setMedicineCode(String medicineCode) {
 		this.medicineCode = medicineCode;
+	}
+	public String getBatchNo() {
+		return batchNo;
+	}
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
 	}
 	
 	

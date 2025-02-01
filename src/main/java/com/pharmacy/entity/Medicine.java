@@ -20,6 +20,7 @@ public class Medicine {
 	private Integer id;
 	private String medicineName;
 	private String medicineCode;
+	private String batchNo;
 	private String description;
 	private String brandName;
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -41,6 +42,7 @@ public class Medicine {
 		this.manufacturerName = request.getManufacturerName();
 		this.expiryDate = request.getExpiryDate();
 		this.medicineImage = request.getMedicineImage();
+		this.batchNo = request.getBatchNo();
 		
 	}
 	public Integer getId() {
@@ -108,6 +110,14 @@ public class Medicine {
 	}
 	public void setMedicineCode(String medicineCode) {
 		this.medicineCode = medicineCode;
+	}
+	public Medicine() {
+	}
+	public String getBatchNo() {
+		return batchNo;
+	}
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
 	}
 	
 	

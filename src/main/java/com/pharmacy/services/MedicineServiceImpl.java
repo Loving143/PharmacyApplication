@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.pharmacy.Request.AddMedicineRequest;
 import com.pharmacy.entity.Medicine;
+import com.pharmacy.entity.Subcategory;
+import com.pharmacy.exception.BadRequestException;
 import com.pharmacy.repository.MedicineRepository;
+import com.pharmacy.repository.SubCategoryRepository;
 
 @Service
 public class MedicineServiceImpl implements MedicineService{
@@ -16,20 +19,31 @@ public class MedicineServiceImpl implements MedicineService{
 	@Autowired
 	private MedicineRepository medicineRepository;
 	
+	@Autowired
+	private SubCategoryRepository subcategoryRepository;
+	
 	@Override
 	public void addMedicine(AddMedicineRequest request) {
-		try {
-			validateAddMedicine(request);
-		} catch (Exception e) {
+		validateAddMedicine(request);
+		Medicine medicine = null;
+		Subcategory subcategory = subcategoryRepository.findById(request.getSubcategory().getId())
+		.orElseThrow(()-> new BadRequestException("Subcategory not found!"));
+		if(medicineRepository.existsByMedicineCodeAndBatchNo(request.getMedicineCode(),request.getBatchNo())) {
+			medicine =	medicineRepository.fetchMedicineByMedicneCodeAndBatchNo(request.getMedicineCode(),request.getBatchNo());
+			int stockQuantity = medicine.getStockQuantity()+request.getStockQuantity();
+			medicine.setStockQuantity(stockQuantity);
+		}else {
+			if(medicineRepository.existsByMedicineCodeAndExpiryDate(request.getMedicineCode(),request.getExpiryDate()))
+					throw new BadRequestException("Same medicine having different batches can not have same expiry date!");
+				medicine = new Medicine(request);
+				medicine.setSubcategory(subcategory);
 		}
-		
-		Medicine medicine = new Medicine(request);
 		medicineRepository.save(medicine);
 	}
-	public void validateAddMedicine(AddMedicineRequest request) throws Exception {
-		if(request.getExpiryDate().before(new Date())) {
-			throw new Exception("This medicine is already expired!");
-		}
+	public void validateAddMedicine(AddMedicineRequest request)  {
+		
+		
+		
 	}
 
 }
