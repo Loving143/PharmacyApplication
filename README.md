@@ -4,3 +4,4 @@
 3 If the price of the medicine change we should also update the cartitems price .
 4 if the quantity of the cartitem for the particular medicine exceeds the medicine in the stock then we should show 
   a pop message to buy that much stock.
+5 Put a maximum purchase limit for the specific medicine.
