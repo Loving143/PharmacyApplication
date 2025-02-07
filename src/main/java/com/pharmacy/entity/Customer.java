@@ -20,7 +20,7 @@ public class Customer extends Person{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	private Integer id;
-	  @ManyToMany(fetch = FetchType.LAZY)
+	  @ManyToMany(fetch = FetchType.EAGER)
 	  @JoinTable(
 	        name = "customer_roles", 
 	        joinColumns = @JoinColumn(name = "customer_id"), 

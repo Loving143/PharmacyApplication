@@ -28,13 +28,15 @@ public class Medicine {
 	private String brandName;
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Subcategory subcategory;
-	private double price;
+	private Double price;
 	private Integer stockQuantity;
 	private String manufacturerName;
 	private Date expiryDate;
 	private byte[] medicineImage;
 	@Enumerated(EnumType.STRING)
 	private MedicineStatus status;
+	private Integer orderLimit;
+	private Integer discount;
 	
 	
 	public Medicine(AddMedicineRequest request) {
@@ -105,12 +107,6 @@ public class Medicine {
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
-	public byte[] getMedicineImage() {
-		return medicineImage;
-	}
-	public void setMedicineImage(byte[] medicineImage) {
-		this.medicineImage = medicineImage;
-	}
 	public String getMedicineCode() {
 		return medicineCode;
 	}
@@ -130,6 +126,27 @@ public class Medicine {
 	}
 	public void setStatus(MedicineStatus status) {
 		this.status = status;
+	}
+	public byte[] getMedicineImage() {
+		return medicineImage;
+	}
+	public void setMedicineImage(byte[] medicineImage) {
+		this.medicineImage = medicineImage;
+	}
+	public Integer getOrderLimit() {
+		return orderLimit;
+	}
+	public void setOrderLimit(Integer orderLimit) {
+		this.orderLimit = orderLimit;
+	}
+	public Integer getDiscount() {
+		return discount;
+	}
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 	
 	

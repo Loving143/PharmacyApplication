@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pharmacy.entity.Admin;
 import com.pharmacy.entity.Customer;
+import com.pharmacy.entity.CustomerLoginHistory;
 import com.pharmacy.entity.Otp;
+import com.pharmacy.repository.CustomerLoginHistoryRepository;
 import com.pharmacy.security.CustomUsernamePasswordAuthentication;
 import com.pharmacy.security.EmailSending;
 import com.pharmacy.security.FetchUserDetailsServiceFactory;
@@ -54,6 +55,10 @@ public class AuthController {
     @Autowired
     private EntityFetchService entityFetchService;
     
+
+	@Autowired
+	private CustomerLoginHistoryRepository customerLoginRepo;
+    
     @PostMapping({"/{userType}/login","/login"})
     public String login(@RequestBody  Object request, @PathVariable(required=false) String userType) {
     	Map<String, Object> data = (Map<String, Object>) request;
@@ -61,6 +66,7 @@ public class AuthController {
                 new CustomUsernamePasswordAuthentication(
                 (String)data.get("username"), null,userType));
       SecurityContextHolder.getContext().setAuthentication(authentication);
+      
       Otp otp = otpService.generateOtp((String)data.get("username"));
       String emaill = null;
       String name = null;
@@ -69,9 +75,11 @@ public class AuthController {
     		  emaill = admin.getEmail();
     		  name = admin.getUserName();
     	 } else if ("customer".equals(userType)) {
-        	//  customer = (Customer)entityFetchService.getEntityByUsername(userType, (String)data.get("username"));
+        	  customer = (Customer)entityFetchService.getEntityByUsername(userType, (String)data.get("username"));
         	 // emaill = customer.getEmail();
         	  //name = customer.getUserName();
+    		 CustomerLoginHistory login = new CustomerLoginHistory(customer,data);
+    		 customerLoginRepo.save(login);
          }else {
          throw new IllegalArgumentException("Invalid entityType: " + userType);
          }
@@ -88,7 +96,7 @@ public class AuthController {
     @PostMapping("/{userType}/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpReq,@PathVariable String userType) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(otpReq.getUsername(), otpReq.getOtp()));
+                new CustomUsernamePasswordAuthentication(otpReq.getUsername(), otpReq.getOtp(),null));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsService userDetailsService=  userDetailsServiceFactory.fetchUserDetailsService(userType);
         UserDetails user =  userDetailsService.loadUserByUsername(otpReq.getUsername());

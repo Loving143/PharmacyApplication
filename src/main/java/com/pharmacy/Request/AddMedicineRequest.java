@@ -72,12 +72,6 @@ public class AddMedicineRequest {
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
-	public byte[] getMedicineImage() {
-		return medicineImage;
-	}
-	public void setMedicineImage(byte[] medicineImage) {
-		this.medicineImage = medicineImage;
-	}
 	public String getMedicineCode() {
 		return medicineCode;
 	}
@@ -89,6 +83,12 @@ public class AddMedicineRequest {
 	}
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
+	}
+	public byte[] getMedicineImage() {
+		return medicineImage;
+	}
+	public void setMedicineImage(byte[] medicineImage) {
+		this.medicineImage = medicineImage;
 	}
 	
 	

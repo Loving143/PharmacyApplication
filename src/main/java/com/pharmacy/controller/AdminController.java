@@ -3,6 +3,7 @@ package com.pharmacy.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pharmacy.Request.AddMedicineRequest;
+import com.pharmacy.repository.CustomerLoginHistoryRepository;
 import com.pharmacy.response.ResponseMessage;
 import com.pharmacy.services.MedicineService;
 
@@ -23,12 +25,15 @@ public class AdminController {
 	@Value("${medicine.threshhold}")
 	private Integer medicineThreshhold;
 	
+	
 	@PostMapping("/add/medicine")
 	public ResponseEntity<?> addMedicine(@RequestBody AddMedicineRequest request) {
 		medicineService.addMedicine(request);
 		return  ResponseEntity.ok(new ResponseMessage("1","Medicine added successfully"));
 	}
 	
+	
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/get/lowStockMedicines")
 	public ResponseEntity<?>fetchLowStockMedicine(){
 		return ResponseEntity.ok(new ResponseMessage("1",medicineService.fetchLowStockMedicine(medicineThreshhold)));
