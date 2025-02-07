@@ -17,6 +17,8 @@ import com.pharmacy.response.ExpiredMedicineReponse;
 import com.pharmacy.response.LowStockMedicineResponsible;
 import com.pharmacy.response.MedicineResponse;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class MedicineServiceImpl implements MedicineService{
 
@@ -47,13 +49,15 @@ public class MedicineServiceImpl implements MedicineService{
 	}
 	public void validateAddMedicine(AddMedicineRequest request)  {
 	}
+	
+	@Transactional
 	@Override
 	public List<MedicineResponse> fetchLowStockMedicine(Integer medicineThreshhold) {
-		 return medicineRepository.fetchLowStockMedicine()
+		 return medicineRepository.fetchLowStockMedicine(medicineThreshhold)
 				 .stream().map(medicine -> new MedicineResponse(medicine))
 				 .collect(Collectors.toList());
-
 	}
+	
 	@Override
 	public MedicineResponse fetchMedicineByMedicineCodeAndBatchNo(String medicineCode, String batchNo) {
 		LowStockMedicineResponsible responsible =  medicineRepository.fetchMedicineByMedicineCodeAndBatchNo(medicineCode,batchNo).
@@ -70,9 +74,10 @@ public class MedicineServiceImpl implements MedicineService{
 				 )
 				 .collect(Collectors.toList());
 	}
+	
 	@Override
 	public List<MedicineResponse> fetchAllMedicines() {
-		return medicineRepository.fetchLowStockMedicine()
+		return medicineRepository.fetchAllMedicine()
 				 .stream().map(medicine -> new MedicineResponse(medicine))
 				 .collect(Collectors.toList());
 	}

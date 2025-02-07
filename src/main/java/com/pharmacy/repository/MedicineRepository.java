@@ -35,8 +35,9 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer>{
 			+ "(Select medSub.medicineName from Medicine medSub "
 			+ "group By medSub.medicineName "
 			+ "having count(medSub.batchNo)=1 )"
+			+ "AND med.stockQuantity<:threshhold"
 			)
-	List<LowStockMedicineResponsible> fetchLowStockMedicine();
+	List<LowStockMedicineResponsible> fetchLowStockMedicine(Integer threshhold);
 
 	@Query(" Select "
 			+ "med.medicineName as medicineName,"

@@ -30,6 +30,8 @@ public class EmailSending implements EmailServices  {
 	@Value("${spring.mail.username")
 	private String fromEmailId;
 	
+	
+	
 	@Override
 	public void sendEmail(String recipient , String body , String subject, Map<String,Object>model) {
 //		SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -68,6 +70,12 @@ public class EmailSending implements EmailServices  {
 	            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
 	        }
 	    }
+
+	@Override
+	public void sendPrescriptionEmail(String to, String qrCodeBase64) {
+		
+		
+	}
 
 		
 	}
