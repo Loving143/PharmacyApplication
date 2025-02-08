@@ -18,3 +18,12 @@ FetchLowStockMedicine()
     Whenever a medicine is banned, cart items containing that medicine should be updated automatically.
     Add a trigger to update CartItem when Product.status = 'BANNED':
     Overall we will think on this functionality in the future.
+    
+**Prescription**
+  1 There will not be any link between the Prescription and the CartItem .Prescription has the reference with Prescribed Items which has refrence to the medicine.
+    This is because :
+    Separation of Concerns – Prescription and Cart are two independent systems.
+    Flexibility – A prescription can be approved partially, and some medicines may not be added to the cart.
+    Scalability – The cart remains lightweight, allowing for high performance in large-scale applications.
+    Better Query Optimization – Using joins rather than redundant foreign keys improves performance.
+
