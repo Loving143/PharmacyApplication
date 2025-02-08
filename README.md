@@ -12,3 +12,9 @@ FetchLowStockMedicine()
   if same medicine having different batches then it means that more other stocks for that medicine has been reserved.So medicine having two or more batches can not come into 
   the fetch lowStock medicine list.
   When the chemist buys the medicine from the supplier then the medicine comes in the form of batches .Each batch having their expiry date mentioned .
+
+  **Medicine**
+  1 If a medicine gets banned from the governement and the customer has added that medicine into the cart then he is not allowed to order that medicine .
+    Whenever a medicine is banned, cart items containing that medicine should be updated automatically.
+    Add a trigger to update CartItem when Product.status = 'BANNED':
+    Overall we will think on this functionality in the future.
