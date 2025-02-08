@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
@@ -32,6 +33,15 @@ public class Customer extends Person{
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Document>documents;
 	
+	@OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Cart cart;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Orderr> orders;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions; 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -49,6 +59,24 @@ public class Customer extends Person{
 	}
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	public Cart getCart() {
+		return cart;
+	}
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+	public List<Orderr> getOrders() {
+		return orders;
+	}
+	public void setOrders(List<Orderr> orders) {
+		this.orders = orders;
+	}
+	public List<Prescription> getPrescriptions() {
+		return prescriptions;
+	}
+	public void setPrescriptions(List<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
 	}
 
 }

@@ -5,6 +5,7 @@ public enum MedicineStatus {
 	ACTIVE("Active"),
 	DISPOSED("Disposed"),
 	EXPIRED("Expired"),
+	BANNED("Banned"),
 	RETURNED("Returned");
 	
 	private String value;
