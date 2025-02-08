@@ -21,6 +21,14 @@ public class Medicine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	private String medicineName;
 	private String medicineCode;
 	private String batchNo;
@@ -53,12 +61,7 @@ public class Medicine {
 		this.status = MedicineStatus.ACTIVE;
 		
 	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 	public String getMedicineName() {
 		return medicineName;
 	}
@@ -150,6 +153,6 @@ public class Medicine {
 	}
 	
 	
-	
+
 
 }

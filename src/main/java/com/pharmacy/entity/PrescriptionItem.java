@@ -1,7 +1,6 @@
 package com.pharmacy.entity;
 
 import com.pharmacy.enumm.PresScriptionStatus;
-import com.smart.entity.Product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

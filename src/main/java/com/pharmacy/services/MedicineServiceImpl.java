@@ -35,17 +35,17 @@ public class MedicineServiceImpl implements MedicineService{
 		Medicine medicine = null;
 		Subcategory subcategory = subcategoryRepository.findById(request.getSubcategory().getId())
 		.orElseThrow(()-> new BadRequestException("Subcategory not found!"));
-		if(medicineRepository.existsByMedicineCodeAndBatchNo(request.getMedicineCode(),request.getBatchNo())) {
-			medicine =	medicineRepository.fetchMedicineByMedicneCodeAndBatchNo(request.getMedicineCode(),request.getBatchNo());
-			int stockQuantity = medicine.getStockQuantity()+request.getStockQuantity();
-			medicine.setStockQuantity(stockQuantity);
-		}else {
-			if(medicineRepository.existsByMedicineCodeAndExpiryDate(request.getMedicineCode(),request.getExpiryDate()))
-					throw new BadRequestException("Same medicine having different batches can not have same expiry date!");
-				medicine = new Medicine(request);
-				medicine.setSubcategory(subcategory);
-		}
-		medicineRepository.save(medicine);
+//		if(medicineRepository.existsByMedicineCodeAndBatchNo(request.getMedicineCode(),request.getBatchNo())) {
+//			medicine =	medicineRepository.fetchMedicineByMedicneCodeAndBatchNo(request.getMedicineCode(),request.getBatchNo());
+//			int stockQuantity = medicine.getStockQuantity()+request.getStockQuantity();
+//			medicine.setStockQuantity(stockQuantity);
+//		}else {
+//			if(medicineRepository.existsByMedicineCodeAndExpiryDate(request.getMedicineCode(),request.getExpiryDate()))
+//					throw new BadRequestException("Same medicine having different batches can not have same expiry date!");
+//				medicine = new Medicine(request);
+//				medicine.setSubcategory(subcategory);
+//		}
+//		medicineRepository.save(medicine);
 	}
 	public void validateAddMedicine(AddMedicineRequest request)  {
 	}
@@ -53,33 +53,37 @@ public class MedicineServiceImpl implements MedicineService{
 	@Transactional
 	@Override
 	public List<MedicineResponse> fetchLowStockMedicine(Integer medicineThreshhold) {
-		 return medicineRepository.fetchLowStockMedicine(medicineThreshhold)
-				 .stream().map(medicine -> new MedicineResponse(medicine))
-				 .collect(Collectors.toList());
+//		 return medicineRepository.fetchLowStockMedicine(medicineThreshhold)
+//				 .stream().map(medicine -> new MedicineResponse(medicine))
+//				 .collect(Collectors.toList());
+	return null;
 	}
 	
 	@Override
 	public MedicineResponse fetchMedicineByMedicineCodeAndBatchNo(String medicineCode, String batchNo) {
-		LowStockMedicineResponsible responsible =  medicineRepository.fetchMedicineByMedicineCodeAndBatchNo(medicineCode,batchNo).
-					orElseThrow(()-> new BadRequestException("Medicine does not exists!"));
-		MedicineResponse response = new MedicineResponse(responsible);
-		return response;
+//		LowStockMedicineResponsible responsible =  medicineRepository.fetchMedicineByMedicineCodeAndBatchNo(medicineCode,batchNo).
+//					orElseThrow(()-> new BadRequestException("Medicine does not exists!"));
+//		MedicineResponse response = new MedicineResponse(responsible);
+//		return response;
+		return null;
 	}
 	@Override
 	public List<ExpiredMedicineReponse> fetchExpiredMedicines() {
-		Date date = new Date();
-		return medicineRepository.fetchExpiredMedicine(date)
-				 .stream().map((medicine) -> 
-					 new ExpiredMedicineReponse(medicine)
-				 )
-				 .collect(Collectors.toList());
+//		Date date = new Date();
+//		return medicineRepository.fetchExpiredMedicine(date)
+//				 .stream().map((medicine) -> 
+//					 new ExpiredMedicineReponse(medicine)
+//				 )
+//				 .collect(Collectors.toList());
+		return null;
 	}
 	
 	@Override
 	public List<MedicineResponse> fetchAllMedicines() {
-		return medicineRepository.fetchAllMedicine()
-				 .stream().map(medicine -> new MedicineResponse(medicine))
-				 .collect(Collectors.toList());
+//		return medicineRepository.fetchAllMedicine()
+//				 .stream().map(medicine -> new MedicineResponse(medicine))
+//				 .collect(Collectors.toList());
+		return null;
 	}
 
 }

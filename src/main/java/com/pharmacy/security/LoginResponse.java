@@ -3,8 +3,6 @@ package com.pharmacy.security;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.smart.entity.Customer;
-
 public class LoginResponse<T> {
 	
 	private String token;
