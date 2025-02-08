@@ -27,3 +27,7 @@ FetchLowStockMedicine()
     Scalability – The cart remains lightweight, allowing for high performance in large-scale applications.
     Better Query Optimization – Using joins rather than redundant foreign keys improves performance.
 
+**Cart**
+1 Each customer has only one active cart at a time, and it gets cleared after an order is placed.
+
+
