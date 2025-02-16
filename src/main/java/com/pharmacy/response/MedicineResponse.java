@@ -1,5 +1,6 @@
 package com.pharmacy.response;
 
+import java.util.Base64;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,6 +8,7 @@ import com.pharmacy.enumm.MedicineStatus;
 
 public class MedicineResponse {
 	
+	private Integer id;
 	private String medicineName;
 	private String medicineCode;
 	private String batchNo;
@@ -18,6 +20,7 @@ public class MedicineResponse {
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date expiryDate;
 	private MedicineStatus status;
+	private String medicineImage;
 	
 	public String getMedicineName() {
 		return medicineName;
@@ -74,6 +77,7 @@ public class MedicineResponse {
 		this.expiryDate = expiryDate;
 	}
 	public MedicineResponse(LowStockMedicineResponsible dto) {
+		this.id = dto.getId();
 		this.batchNo = dto.getBatchNo();
 		this.brandName = dto.getBrandName();
 		this.medicineCode = dto.getmedicineCode();
@@ -82,6 +86,7 @@ public class MedicineResponse {
 		this.price = dto.getPrice();
 		this.stockQuantity = dto.getStockQuantity();
 		this.expiryDate = dto.getExpiryDate();
+		this.medicineImage = Base64.getEncoder().encodeToString( dto.getMedicineImage());
 	}
 	public MedicineStatus getStatus() {
 		return status;
@@ -89,6 +94,19 @@ public class MedicineResponse {
 	public void setStatus(MedicineStatus status) {
 		this.status = status;
 	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getMedicineImage() {
+		return medicineImage;
+	}
+	public void setMedicineImage(String medicineImage) {
+		this.medicineImage = medicineImage;
+	}
+	
 	
 	
 

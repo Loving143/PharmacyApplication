@@ -4,6 +4,7 @@ import java.util.Date;
 
 public interface LowStockMedicineResponsible {
 
+	Integer getId();
 	String getMedicineName();
 	String getmedicineCode();
 	String getBatchNo();
@@ -12,5 +13,6 @@ public interface LowStockMedicineResponsible {
 	double getPrice();
 	Integer getStockQuantity();
 	Date getExpiryDate();
+	byte[] getMedicineImage();
 	
 }

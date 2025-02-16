@@ -30,11 +30,9 @@ public class Prescription {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    
     @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
     private Set<PrescriptionItem> prescribedItems;
 
-    
     @Column(name = "doctor_name", nullable = false)
     private String doctorName;
 
@@ -50,6 +48,8 @@ public class Prescription {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private PresScriptionStatus status; 
+    
+    private byte[] prescriptionUploaded;
 
     public Prescription() {}
 
@@ -125,7 +125,6 @@ public class Prescription {
 	public void setStatus(PresScriptionStatus status) {
 		this.status = status;
 	}
-    
     
 }
 

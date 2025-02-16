@@ -28,7 +28,8 @@ public class OrderItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Medicine medicine; 
 
-    private int quantity;
+    private Integer quantity;
+    
     private BigDecimal pricePerUnit;
 
     @Enumerated(EnumType.STRING)
@@ -48,14 +49,6 @@ public class OrderItem {
 
 	public void setMedicine(Medicine medicine) {
 		this.medicine = medicine;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	public BigDecimal getPricePerUnit() {
@@ -80,6 +73,14 @@ public class OrderItem {
 
 	public void setOrderr(Orderr orderr) {
 		this.orderr = orderr;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 }

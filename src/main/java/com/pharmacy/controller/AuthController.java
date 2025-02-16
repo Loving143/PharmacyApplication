@@ -96,7 +96,7 @@ public class AuthController {
     @PostMapping("/{userType}/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpReq,@PathVariable String userType) {
         Authentication authentication = authenticationManager.authenticate(
-                new CustomUsernamePasswordAuthentication(otpReq.getUsername(), otpReq.getOtp(),null));
+                new CustomUsernamePasswordAuthentication(otpReq.getUsername(), otpReq.getOtp(),userType));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsService userDetailsService=  userDetailsServiceFactory.fetchUserDetailsService(userType);
         UserDetails user =  userDetailsService.loadUserByUsername(otpReq.getUsername());

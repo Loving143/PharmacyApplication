@@ -16,13 +16,13 @@ public class AddMedicineRequest {
 	private String batchNo;
 	private String description;
 	private String brandName;
-	private Subcategory subcategory;
+	private Integer subcategoryId;
 	private double price;
 	private Integer stockQuantity;
 	private String manufacturerName;
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date expiryDate;
-	private byte[] medicineImage;
+	private String medicineImage;
 	
 	public String getMedicineName() {
 		return medicineName;
@@ -41,12 +41,6 @@ public class AddMedicineRequest {
 	}
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
-	}
-	public Subcategory getSubcategory() {
-		return subcategory;
-	}
-	public void setSubcategory(Subcategory subcategory) {
-		this.subcategory = subcategory;
 	}
 	public double getPrice() {
 		return price;
@@ -84,10 +78,16 @@ public class AddMedicineRequest {
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
 	}
-	public byte[] getMedicineImage() {
+	public Integer getSubcategoryId() {
+		return subcategoryId;
+	}
+	public void setSubcategoryId(Integer subcategoryId) {
+		this.subcategoryId = subcategoryId;
+	}
+	public String getMedicineImage() {
 		return medicineImage;
 	}
-	public void setMedicineImage(byte[] medicineImage) {
+	public void setMedicineImage(String medicineImage) {
 		this.medicineImage = medicineImage;
 	}
 	

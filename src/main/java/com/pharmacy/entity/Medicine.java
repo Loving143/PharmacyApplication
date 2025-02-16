@@ -1,11 +1,13 @@
 package com.pharmacy.entity;
 
+import java.util.Base64;
 import java.util.Date;
 
 import com.pharmacy.Request.AddMedicineRequest;
 import com.pharmacy.enumm.MedicineStatus;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,13 +15,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Medicine {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
 	public Integer getId() {
@@ -40,7 +43,10 @@ public class Medicine {
 	private Integer stockQuantity;
 	private String manufacturerName;
 	private Date expiryDate;
+	
+	@Lob
 	private byte[] medicineImage;
+	
 	@Enumerated(EnumType.STRING)
 	private MedicineStatus status;
 	private Integer orderLimit;
@@ -56,7 +62,13 @@ public class Medicine {
 		this.stockQuantity = request.getStockQuantity();
 		this.manufacturerName = request.getManufacturerName();
 		this.expiryDate = request.getExpiryDate();
-		this.medicineImage = request.getMedicineImage();
+		// Convert Base64 string to byte array
+	    if (request.getMedicineImage() !=null && !request.getMedicineImage().isEmpty()) {
+	    	System.out.println(request.getMedicineImage()+"This is ");
+	        this.medicineImage = Base64.getDecoder().decode(request.getMedicineImage());
+	        System.out.println(this.medicineImage+"This ");
+	    }
+		
 		this.batchNo = request.getBatchNo();
 		this.status = MedicineStatus.ACTIVE;
 		
