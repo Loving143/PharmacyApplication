@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.pharmacy.entity.Admin;
 import com.pharmacy.entity.Customer;
@@ -30,6 +31,8 @@ import com.pharmacy.security.OtpRequest;
 import com.pharmacy.services.EntityFetchService;
 import com.pharmacy.services.JwtUtil;
 import com.pharmacy.services.OtpService;
+
+import jakarta.servlet.http.HttpServletRequest;
 	
 @RestController
 @RequestMapping("/api/auth")
@@ -68,6 +71,7 @@ public class AuthController {
       SecurityContextHolder.getContext().setAuthentication(authentication);
       
       Otp otp = otpService.generateOtp((String)data.get("username"));
+      System.out.println("The otp is "+otp);
       String emaill = null;
       String name = null;
     	  if ("admin".equals(userType)) {
@@ -75,11 +79,7 @@ public class AuthController {
     		  emaill = admin.getEmail();
     		  name = admin.getUserName();
     	 } else if ("customer".equals(userType)) {
-        	  customer = (Customer)entityFetchService.getEntityByUsername(userType, (String)data.get("username"));
-        	 // emaill = customer.getEmail();
-        	  //name = customer.getUserName();
-    		 CustomerLoginHistory login = new CustomerLoginHistory(customer,data);
-    		 customerLoginRepo.save(login);
+        	 
          }else {
          throw new IllegalArgumentException("Invalid entityType: " + userType);
          }
@@ -94,15 +94,49 @@ public class AuthController {
       return "OTP generated successfully: "+otp.getOtpCode();
     }
     @PostMapping("/{userType}/verify-otp")
-    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpReq,@PathVariable String userType) {
+    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpReq,@PathVariable String userType,HttpServletRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new CustomUsernamePasswordAuthentication(otpReq.getUsername(), otpReq.getOtp(),userType));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsService userDetailsService=  userDetailsServiceFactory.fetchUserDetailsService(userType);
         UserDetails user =  userDetailsService.loadUserByUsername(otpReq.getUsername());
         String jwtToken = jwtUtil.generateToken(otpReq.getUsername(),user.getAuthorities());
-        LoginResponse response = new LoginResponse(jwtToken,user);
+        customer = (Customer)entityFetchService.getEntityByUsername(userType, otpReq.getUsername());
+   	 // emaill = customer.getEmail();
+   	  //name = customer.getUserName();
+        String clientIp = getClientIp(request);
+        String location = getLocationFromIp(clientIp);
+        String deviceUsed = request.getHeader("User-Agent");
+        Map<String,Object>data = new HashMap();
+        data.put("ipAddress",clientIp);
+        data.put("location",location);
+        data.put("deviceUsed",deviceUsed);
+		 CustomerLoginHistory login = new CustomerLoginHistory(customer,data);
+		 customerLoginRepo.save(login);
+        LoginResponse response = new LoginResponse(jwtToken,customer);
         return ResponseEntity.ok(response);
+    }
+    
+    private String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For"); // Handles proxies
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
+    
+    private String getLocationFromIp(String ip) {
+        String apiUrl = "http://ip-api.com/json/" + ip;
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            Map<String, Object> response = restTemplate.getForObject(apiUrl, Map.class);
+            if (response != null && "success".equals(response.get("status"))) {
+                return response.get("city") + ", " + response.get("country");
+            }
+        } catch (Exception e) {
+            return "Unknown Location";
+        }
+        return "Unknown Location";
     }
     
     

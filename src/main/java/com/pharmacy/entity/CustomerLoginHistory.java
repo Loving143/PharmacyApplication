@@ -64,8 +64,8 @@ public class CustomerLoginHistory {
 	        this.deviceUsed = (String) map.get("deviceUsed");
 //	        this.loginTime =(LocalDateTime) map.get("loginTime");
 //	        this.logoutTime =(LocalDateTime) map.get("logOutTime");
-	        this.failedAttempts = (int) map.get("failedAttempts");
-	        this.accountLocked = (boolean) map.get("accountLocked");
+	        this.failedAttempts = 0;
+	        this.accountLocked = false;
 //	        this.lockExpiryTime = (LocalDateTime) map.get("lockExpiryTime");
 	    }
 
