@@ -51,8 +51,8 @@ public class SecurityConfig {
         	 
         	.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/register/**").permitAll()
-                .requestMatchers("/admin/**").permitAll()
+                .requestMatchers("/api/auth/**", "/register/**","/cart/**").permitAll()
+                .requestMatchers("/admin/**","/category/**").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling()

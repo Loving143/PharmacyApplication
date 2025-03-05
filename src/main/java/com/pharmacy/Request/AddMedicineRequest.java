@@ -1,5 +1,6 @@
 package com.pharmacy.Request;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,7 +18,7 @@ public class AddMedicineRequest {
 	private String description;
 	private String brandName;
 	private Integer subcategoryId;
-	private double price;
+	private BigDecimal price;
 	private Integer stockQuantity;
 	private String manufacturerName;
 	@JsonFormat(pattern = "dd-MM-yyyy")
@@ -42,10 +43,10 @@ public class AddMedicineRequest {
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	public Integer getStockQuantity() {
